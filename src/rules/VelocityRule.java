@@ -39,7 +39,7 @@ public class VelocityRule extends AbstractRule {
     // Check if the transaction is allowed based on the the time interval between transactions
     public boolean checkTransaction(Transaction transaction, Account account) {
         if (transaction.getTimestamp().isAfter(end)) {
-            start = transaction.getTimestamp();
+            start = transaction.getTimestamp(); 
             end = start.plus(interval);
             transactionCount = 0;
         }
