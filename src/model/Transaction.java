@@ -17,4 +17,28 @@ public class Transaction {
         this.country = country;
         this.timestamp = timestamp;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getMerchant() {
+        return merchant;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }
