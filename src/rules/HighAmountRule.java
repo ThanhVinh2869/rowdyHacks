@@ -9,7 +9,7 @@ import model.Account;
 public class HighAmountRule extends AbstractRule {
 
     // max amount for new accounts with less than a month of transaction history
-    private static final double NEW_ACCOUNT_MAX_LIMIT = 5_000;
+    private static final double NEW_ACCOUNT_MAX_LIMIT = 5000;
 
     private double maxLimit;
     private int multiplier;
