@@ -78,6 +78,7 @@ public class HighAmountRule extends AbstractRule {
 
     @Override
     public RuleResult evaluate(Transaction tx, Account account) {
+        // Return not triggered if either the transaction or account is null
         if (tx == null || account == null) {
             return RuleResult.notTriggered();
         }
