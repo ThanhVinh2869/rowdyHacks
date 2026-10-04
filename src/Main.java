@@ -1,3 +1,5 @@
+package src;
+
 import reader.CsvTransactionReader;
 import engine.AccountRegistry;
 import engine.FraudDetector;
