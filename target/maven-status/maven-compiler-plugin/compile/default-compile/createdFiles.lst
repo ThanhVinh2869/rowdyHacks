@@ -1,8 +1,7 @@
-frontend/ViewDemo.class
 rules/AbstractRule.class
-frontend/ViewDemo$DemoController.class
 rules/OddHourRule.class
 frontend/ResultsView.class
+view/ViewDemo.class
 engine/AccountRegistry.class
 frontend/ViewListener.class
 model/RiskLevel.class
@@ -14,6 +13,7 @@ rules/HighAmountRule.class
 model/Account.class
 reader/CsvTransactionReader.class
 frontend/MainView.class
+view/ViewDemo$DemoController.class
 Main.class
 frontend/ProcessingView.class
 model/FraudResult.class
