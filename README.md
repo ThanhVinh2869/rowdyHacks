@@ -41,7 +41,7 @@ DevPost Submission: https://devpost.com/software/fraud-transaction-detection
 
 ```bash
 git clone https://github.com/ThanhVinh2869/rowdyHacks
- 
+cd .\rowdyHacks\
 mvn javafx:run
 ```
 
