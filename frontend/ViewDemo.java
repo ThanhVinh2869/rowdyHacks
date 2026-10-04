@@ -1,4 +1,4 @@
-package frontend;
+package view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,7 +18,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * placeholder controller for running the screens without the backend
+ * PLACEHOLDER CONTROLLER so you can run the screens without the backend.
+ * Replace DemoController with your real controller, which should call
+ * CsvTransactionReader + FraudDetector + AccountRegistry on a background
+ * thread and report back via view.setProgress(...) / view.showResults(...)
+ * using Platform.runLater(...).
  */
 public class ViewDemo extends Application {
 
@@ -44,9 +48,10 @@ public class ViewDemo extends Application {
 
         void bind(MainView v) { this.view = v; }
 
-        @Override public void onFileChosen(File file) { }
+        @Override public void onFileChosen(File file) { /* TODO */ }
 
         @Override public void onAnalyze(File file) {
+            // TODO: run real analysis on a background Task and update the view with Platform.runLater
             String[] stages = {"Reading CSV\u2026", "Running HighAmountRule\u2026", "Running VelocityRule\u2026",
                     "Running LocationChangeRule\u2026", "Running OddHourRule\u2026", "Building summary\u2026"};
             int[] done = {0};
@@ -62,9 +67,9 @@ public class ViewDemo extends Application {
             timeline.play();
         }
 
-        @Override public void onCancel() { if (timeline != null) timeline.stop(); }
+        @Override public void onCancel() { if (timeline != null) timeline.stop(); /* TODO: abort backend task */ }
         @Override public void onExport(List<FraudResult> flagged) { System.out.println("TODO export " + flagged.size() + " rows"); }
-        @Override public void onReset() { }
+        @Override public void onReset() { /* TODO */ }
 
         private List<FraudResult> mockResults() {
             String[] why = {"Transaction amount exceeds the configured limit or recent average threshold",

@@ -1,5 +1,3 @@
-package src;
-
 import reader.CsvTransactionReader;
 import engine.AccountRegistry;
 import engine.FraudDetector;
@@ -59,7 +57,7 @@ public class Main {
         // printRuleTriggerCounts(results);
     }
 
-    
+
     private static void printRuleTriggerCounts(List<FraudResult> results) {
         Map<String, Integer> triggerCounts = new LinkedHashMap<>();
         triggerCounts.put("High amount", 0);
@@ -84,5 +82,5 @@ public class Main {
         System.out.println();
         System.out.println("Rule trigger counts:");
         triggerCounts.forEach((rule, count) -> System.out.println("  " + rule + ": " + count));
-    } 
+    }
 }
