@@ -10,11 +10,12 @@ import model.FraudResult;
 import model.RiskLevel;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/** results screen */
+/** summary cards and a table of results */
 public class ResultsView extends VBox {
     private static final String FLAGGED = "Flagged only (MEDIUM + HIGH)";
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -59,7 +60,7 @@ public class ResultsView extends VBox {
         getChildren().addAll(header, stats, filterRow, table);
     }
 
-    /** fill the screen with results */
+    /** show the backend results */
     public void showResults(String fileName, List<FraudResult> results) {
         all = results;
         fileLabel.setText(fileName);
@@ -99,20 +100,25 @@ public class ResultsView extends VBox {
             default -> r.getLevel().name().equals(f);
         }).toList();
         table.setItems(FXCollections.observableArrayList(list));
+        table.sort();
         shown.setText(String.format("%,d shown", list.size()));
     }
 
     private void buildColumns() {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        table.getColumns().add(col("TX #", 70, r -> "#" + r.getTransaction().getId()));
+        table.getColumns().add(numCol("TX #", 70, r -> "#" + r.getTransaction().getId()));
         table.getColumns().add(col("User", 90, r -> r.getTransaction().getUserId()));
-        table.getColumns().add(col("Amount", 90, r -> String.format("$%,.2f", r.getTransaction().getAmount())));
+        table.getColumns().add(numCol("Amount", 90, r -> String.format("$%,.2f", r.getTransaction().getAmount())));
         table.getColumns().add(col("Merchant", 110, r -> r.getTransaction().getMerchant()));
         table.getColumns().add(col("Country", 70, r -> r.getTransaction().getCountry()));
         table.getColumns().add(col("Time (UTC)", 130, r -> r.getTransaction().getTimestamp().format(TIME)));
-        table.getColumns().add(col("Score", 60, r -> String.valueOf(r.getScore())));
+
+        TableColumn<FraudResult, String> score = numCol("Score", 60, r -> String.valueOf(r.getScore()));
+        score.setSortType(TableColumn.SortType.DESCENDING);
+        table.getColumns().add(score);
 
         TableColumn<FraudResult, String> level = col("Level", 90, r -> r.getLevel().name());
+        level.setComparator(Comparator.comparingInt(s -> RiskLevel.valueOf(s).ordinal()));
         level.setCellFactory(c -> new TableCell<>() {
             @Override protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -129,12 +135,21 @@ public class ResultsView extends VBox {
         });
         table.getColumns().add(level);
         table.getColumns().add(col("Reasons", 320, r -> r.getReasons().isEmpty() ? "\u2014" : String.join("; ", r.getReasons())));
+
+        table.getSortOrder().add(score); // show the highest risk first
     }
 
     private TableColumn<FraudResult, String> col(String title, double width, Function<FraudResult, String> f) {
         TableColumn<FraudResult, String> c = new TableColumn<>(title);
         c.setPrefWidth(width);
         c.setCellValueFactory(d -> new ReadOnlyStringWrapper(f.apply(d.getValue())));
+        return c;
+    }
+
+    /** numeric sorting for columns whose values are displayed as text */
+    private TableColumn<FraudResult, String> numCol(String title, double width, Function<FraudResult, String> f) {
+        TableColumn<FraudResult, String> c = col(title, width, f);
+        c.setComparator(Comparator.comparingDouble(s -> Double.parseDouble(s.replaceAll("[^0-9.\\-]", ""))));
         return c;
     }
 }

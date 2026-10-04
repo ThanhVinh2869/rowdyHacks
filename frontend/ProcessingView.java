@@ -9,7 +9,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-/** processing screen */
+/** progress screen while the backend analyzes the file */
 public class ProcessingView extends VBox {
     private final Label fileLabel = new Label();
     private final ProgressBar bar = new ProgressBar(ProgressBar.INDETERMINATE_PROGRESS);
@@ -46,7 +46,7 @@ public class ProcessingView extends VBox {
         setProgress(0, 0, "Reading CSV\u2026");
     }
 
-    /** zero total shows an indeterminate bar */
+    /** zero total shows an indeterminate bar while the file is being read */
     public void setProgress(int done, int total, String stageText) {
         bar.setProgress(total == 0 ? ProgressBar.INDETERMINATE_PROGRESS : (double) done / total);
         count.setText(String.format("%,d of %,d transactions", done, total));

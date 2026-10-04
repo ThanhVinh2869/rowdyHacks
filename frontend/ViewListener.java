@@ -5,22 +5,20 @@ import model.FraudResult;
 import java.io.File;
 import java.util.List;
 
-/**
- * controller implements this interface
- */
+/** callbacks from the view to the controller */
 public interface ViewListener {
-    /** valid csv file was selected */
+    /** called when the user chooses a valid csv file */
     void onFileChosen(File file);
 
-    /** analyze file was pressed */
+    /** called when the user starts analysis */
     void onAnalyze(File file);
 
-    /** cancel was pressed while processing */
+    /** called when the user cancels analysis */
     void onCancel();
 
-    /** export flagged was pressed */
+    /** called to export flagged results */
     void onExport(List<FraudResult> flagged);
 
-    /** analyze another file was pressed */
+    /** called when the user starts another analysis */
     void onReset();
 }

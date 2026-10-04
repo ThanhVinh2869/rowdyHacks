@@ -13,9 +13,7 @@ import model.FraudResult;
 import java.io.File;
 import java.util.List;
 
-/**
- * root view for the three screens and the step indicator
- */
+/** root view with three screens and a step indicator */
 public class MainView extends BorderPane {
     private UploadView upload;
     private ProcessingView processing;
@@ -57,24 +55,27 @@ public class MainView extends BorderPane {
         show(0);
     }
 
-    /** rule names shown on the upload screen */
+    // api for the controller
+
+    /** optional rule names shown on the upload screen */
     public void setRules(List<String> ruleNames) { upload.setRules(ruleNames); }
 
-    /** progress update while analyzing */
+    /** progress update while analyzing call from the fx thread */
     public void setProgress(int done, int total, String stage) { processing.setProgress(done, total, stage); }
 
-    /** switch to results */
+    /** show the results call from the fx thread */
     public void showResults(List<FraudResult> list) {
         results.showResults(currentFileName, list);
         show(2);
     }
 
-    /** go back to upload with an error message */
+    /** return to upload and show an error message */
     public void showError(String message) {
         show(0);
         upload.showError(message);
     }
 
+    // internal helpers
 
     private void show(int index) {
         upload.setVisible(index == 0);
