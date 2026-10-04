@@ -50,7 +50,7 @@ public class OddHourRule extends AbstractRule {
                 })
                 .count();
 
-        // trigger only when this time range is rare for the user
+        // trigger only when this time range is rare for the user / impossible timing
         if ((double) oddHourTransactions / totalTransactions < 0.10) {
             return new RuleResult(true, getWeight(), "Transaction occurred during an 'odd' hour");
         }
