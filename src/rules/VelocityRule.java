@@ -7,7 +7,7 @@ import model.Transaction;
 
 public class VelocityRule extends AbstractRule {
     private static final int MAX_TRANSACTIONS = 5;
-    private static final Duration INTERVAL = Duration.ofMinutes(5);
+    private static final Duration INTERVAL = Duration.ofDays(1);
 
     private int transactionCount;
 
@@ -67,7 +67,7 @@ public class VelocityRule extends AbstractRule {
         if (recentTransactions >= MAX_TRANSACTIONS) {
             return new RuleResult(true, getWeight(),
                     "Rate limit exceeded: " + MAX_TRANSACTIONS + " transactions in "
-                            + INTERVAL.toMinutes() + " minutes.");
+                            + INTERVAL.toDays() + (INTERVAL.toDays() == 1 ? " day." : " days."));
         }
 
         return RuleResult.notTriggered();
